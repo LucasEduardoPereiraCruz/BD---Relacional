@@ -91,3 +91,26 @@ WHERE
     SELECT AVG(duracao)
     FROM filmes
 );
+
+
+SELECT * FROM atores;
+
+SELECT * FROM categorias;
+
+SELECT * FROM idiomas;
+
+SELECT * FROM paises;
+
+SELECT * FROM cidades;
+
+SELECT * FROM enderecos;
+
+SELECT * FROM clientes;
+
+SELECT * FROM filmes;
+
+SELECT * FROM filmes ORDER BY id_filme DESC LIMIT 1;
+
+SELECT * FROM filmes_atores;
+
+SELECT * FROM filmes_categorias

@@ -86,6 +86,9 @@ CREATE TABLE filmes (
   CONSTRAINT fk_filmes_language_original FOREIGN KEY (idioma_original_id) REFERENCES idiomas (id_idioma) ON DELETE RESTRICT ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+DESCRIBE filmes;
+SELECT database();
 --
 -- Tabelas dependentes (Nível 2)
 --
@@ -599,3 +602,4 @@ DESCRIBE filmes;
 
 
 DESCRIBE pagamentos;
+
