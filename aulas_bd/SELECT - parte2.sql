@@ -113,4 +113,11 @@ SELECT * FROM filmes ORDER BY id_filme DESC LIMIT 1;
 
 SELECT * FROM filmes_atores;
 
-SELECT * FROM filmes_categorias
+SELECT * FROM filmes_categorias;
+
+SELECT * FROM lojas;
+
+SELECT * FROM funcionarios;
+
+SELECT * FROM alugueis;
+
