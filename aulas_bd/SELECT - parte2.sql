@@ -121,3 +121,7 @@ SELECT * FROM funcionarios;
 
 SELECT * FROM alugueis;
 
+SELECT * FROM pagamentos;
+
+
+

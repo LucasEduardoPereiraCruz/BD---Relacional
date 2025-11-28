@@ -1,5 +1,5 @@
 -- Atividade para estudos da P2 
-
+SELECT DATABASE();
 -- INSERTs
 
 INSERT INTO atores (primeiro_nome, ultimo_nome) 
@@ -74,3 +74,59 @@ UPDATE alugueis SET data_devolucao = NOW() WHERE id_aluguel = 100;
 
 -- Diminui o custo de reposição em 10% para todos os filmes lançados antes de 2005
 UPDATE filmes SET custo_reposicao = custo_reposicao * 0.9 WHERE ano_lancamento < 2005 AND id_filme > 0; -- Não existem filmes antes de 2005, mas caso existissem, o custo da reposição seria reduzido em 10%, está correto a linha
+
+
+
+-- DELETEs
+
+-- Primeiro temos que deletar ele de uma tabela na qual ele existe
+DELETE FROM filmes_atores 
+WHERE ator_id = 201;
+
+-- Agora deletamos ele da tabela principal atores
+DELETE FROM atores 
+WHERE id_ator = 201;
+
+-- Deletando categoria 'Brasileiro' de filmes_categoria
+DELETE FROM filmes_categorias
+WHERE categoria_id = 17;
+
+-- Deletando a categoria 'Brasileiro'
+DELETE FROM categorias 
+WHERE id_categoria = 17;
+
+-- Deletando o idioma 'Português'
+DELETE FROM idiomas
+WHERE id_idioma = 7;
+
+-- Deletando o pagamento com id_pagamento 5 
+DELETE FROM pagamentos
+WHERE id_pagamento = 5;
+
+-- Deletando a associação de filmes_atores entre o filme_id 1 e o ator_id 10
+DELETE FROM filmes_atores
+WHERE ator_id = 10 AND filme_id = 1;
+
+-- Deletando a cliente JOANA SILVA, assumindo que ela não possui aluguéis
+DELETE FROM clientes 
+WHERE id_cliente = 600;
+
+-- Deletando o endereço de Copacabana 10 
+DELETE FROM enderecos
+WHERE id_endereco = 606;
+
+-- Deletando o aluguel com id_aluguel 15 
+DELETE FROM alugueis 
+WHERE id_aluguel = 15;
+
+-- Deletando o filme inserido 'TITULO NOVO' e assumindo que foi removido das tabelas de associação
+DELETE FROM filmes
+WHERE id_filme = 1002;
+
+-- Deletando a cidade do Rio de Janeiro, assumindo que nenhum endereço utiliza 
+DELETE FROM cidades
+WHERE id_cidade = 601;
+
+
+
+-- SELECTs
