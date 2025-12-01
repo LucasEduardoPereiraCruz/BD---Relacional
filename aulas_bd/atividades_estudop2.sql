@@ -130,3 +130,48 @@ WHERE id_cidade = 601;
 
 
 -- SELECTs
+-- Simples 
+
+-- Mostrando no primeiro e último nome, ordenando pelo último nome 
+-- Aqui ordenamos 
+SELECT primeiro_nome, ultimo_nome 
+FROM atores
+ORDER BY ultimo_nome ASC;
+
+-- Titulo e ano dos filmes com classificação PG-13
+-- Aqui colocamos uma condição 
+SELECT titulo, ano_lancamento
+FROM filmes
+WHERE classificacao = 'PG-13';
+
+-- Contagem de quantos filmes existem para cada classificação 
+-- Aqui colocamos um grupo 
+SELECT classificacao, COUNT(*) AS filmes
+FROM filmes 
+GROUP BY classificacao;
+
+-- E-mail e criado_em de todos os clientes que estão ativos, ordenados pelo criado_em (mais recentes primeiro)
+SELECT email, criado_em FROM clientes WHERE ativo = 1 ORDER BY criado_em DESC; 		
+
+
+-- Listando os 10 maiores pagamentos, ordenados pelo descendente 
+-- Colocando limite dos 10 primeiros apenas
+SELECT valor FROM pagamentos ORDER BY valor DESC LIMIT 10; 
+
+ 
+-- Mostrando todos os endereços dos "District 9" (Chamei o Distrito Federal pq não achei o District 9)
+SELECT * FROM enderecos WHERE bairro = 'Distrito Federal';
+
+
+-- Contagem de quantos clientes estão associado a cada loja_id
+SELECT loja_id, COUNT(*) AS clientes FROM clientes GROUP BY loja_id;
+
+
+-- Todos os alugueis realizados pelo funcionário_id 1
+SELECT * FROM alugueis WHERE funcionario_id = 1;
+
+-- Taxa de aluguel, titulo e duracao dos filmes, a taxa sendo menor que 1.00 
+SELECT titulo, taxa_aluguel, duracao FROM filmes WHERE taxa_aluguel < 1.00; 
+
+-- Listando dos os países, ordenados por país em ordem alfabética 
+SELECT * FROM paises ORDER BY pais;
