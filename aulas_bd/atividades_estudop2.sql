@@ -1,6 +1,6 @@
 -- Atividade para estudos da P2 
 SELECT DATABASE();
--- INSERTs
+-- 1 INSERTs
 
 INSERT INTO atores (primeiro_nome, ultimo_nome) 
 VALUES ('Carlos', 'Gomes');
@@ -43,7 +43,7 @@ VALUES (1002, 17);
 
 
 
--- UPDATES
+-- 2 UPDATES
 
 -- Atualiza o ultimo nome do ator id = 1
 UPDATE atores SET ultimo_nome = 'Cruz' WHERE id_ator = 1;
@@ -77,7 +77,7 @@ UPDATE filmes SET custo_reposicao = custo_reposicao * 0.9 WHERE ano_lancamento <
 
 
 
--- DELETEs
+-- 3 DELETEs
 
 -- Primeiro temos que deletar ele de uma tabela na qual ele existe
 DELETE FROM filmes_atores 
@@ -130,7 +130,7 @@ WHERE id_cidade = 601;
 
 
 -- SELECTs
--- Simples 
+-- 4 Simples 
 
 -- Mostrando no primeiro e último nome, ordenando pelo último nome 
 -- Aqui ordenamos 
@@ -175,3 +175,85 @@ SELECT titulo, taxa_aluguel, duracao FROM filmes WHERE taxa_aluguel < 1.00;
 
 -- Listando dos os países, ordenados por país em ordem alfabética 
 SELECT * FROM paises ORDER BY pais;
+
+
+-- 5 SELECT com funções 
+
+-- Total de todos os pagamentos 
+SELECT SUM(valor) FROM pagamentos;
+-- Total mais completo (média, max e min) 
+SELECT SUM(valor), AVG(valor), MAX(valor), MIN(valor) FROM pagamentos;
+
+
+-- Calculando a taxa de aluguel (AVG) de todos os filmes 
+SELECT AVG(taxa_aluguel), MAX(taxa_aluguel), MIN(taxa_aluguel) FROM filmes; 
+
+-- Encontrando a menor MIN e o maior MAX de duração dos filmes  
+SELECT MAX(duracao), MIN(duracao) FROM filmes;
+
+-- Exibindo todos os nomes em uma única coluna (Usanbdo CONCAT())
+SELECT CONCAT(primeiro_nome, ' ', ultimo_nome) AS nome FROM clientes;
+
+-- Exibindo o nome de todos os títulos em letra maiúscula 
+SELECT UPPER(titulo) FROM filmes;	
+
+-- Contando quantos inventários tem a id_loja 2 
+SELECT COUNT(*) FROM inventarios WHERE loja_id = 2;
+
+-- Mostrando data de pagamento e o valor de todos os pagamentos, formatando a data com DATE FORMAT  
+SELECT data_pagamento, valor, DATE_FORMAT(data_pagamento, '%d/%m/%Y') AS dia_pago FROM pagamentos;
+
+-- Calculando o aluguel mais antigo (DATEDIFF)
+SELECT DATEDIFF(NOW(), MIN(data_aluguel)) AS aluguel_mais_antigo FROM alugueis; 
+
+-- Substituindo a descrição de DOCUMENTARY para DOCUMENTÁRIO de todos os filmes (REPLACE()) 
+SELECT REPLACE(descricao, 'Documentary', 'Documentário') as documentario FROM filmes;	
+
+-- Exibindo o titulo e o tamanho em caracteres do titulo, usando CHAR_LENGTH() dos 5 filmes com TITULOS MAIS LONGOS
+SELECT titulo, CHAR_LENGTH(titulo) AS tamanho_titulo FROM filmes ORDER BY CHAR_LENGTH(titulo) DESC LIMIT 5; 
+
+
+-- 7 SELECT com INNER JOIN 
+
+-- Listando o titulo do filme e o nome do idioma de cada filme
+SELECT titulo, nome FROM filmes INNER JOIN idiomas ON filmes.idioma_id = idiomas.id_idioma;
+
+
+-- Exibindo o primeiro nome e o logradouro dela 
+SELECT primeiro_nome, logradouro FROM clientes INNER JOIN enderecos ON clientes.endereco_id = enderecos.id_endereco;
+
+
+-- Listando data de aluguel e primeiro_nome do cliente que realizou o aluguel 
+SELECT data_aluguel, primeiro_nome FROM alugueis INNER JOIN clientes ON alugueis.cliente_id = clientes.id_cliente;
+
+
+-- Primeiro nome do funcionário e o id_loja onde ele trabalha 
+SELECT primeiro_nome, id_loja FROM funcionarios INNER JOIN lojas ON funcionarios.loja_id = lojas.id_loja;
+
+
+-- Nome da cidade e o nome do pais correspondente 
+SELECT cidade, pais FROM cidades INNER JOIN paises ON cidades.pais_id = paises.id_pais;
+
+
+-- Listando o titulo e o nome dos atores (necessita de 3 tabelas, filmes, filmes_atores, atores)
+SELECT titulo, primeiro_nome FROM filmes INNER JOIN filmes_atores ON filme_id = id_filme INNER JOIN atores ON ator_id = id_filme;
+
+
+-- Titulo do filme, nome da categoria que ela pertence (requer 3 tabelas: filmes, categorias, filmes_categorias)
+SELECT titulo, nome FROM filmes INNER JOIN filmes_categorias ON filme_id = id_filme INNER JOIN categorias ON categoria_id = id_categoria;
+
+
+-- Listando o valor do pagamento e o primeiro nome do funcionário que o registrou 
+SELECT valor, primeiro_nome FROM pagamentos INNER JOIN funcionarios ON pagamentos.funcionario_id = funcionarios.id_funcionario;
+
+
+-- Listando o id_inventario, id_loja e o titulo do filme correspondente 
+SELECT id_inventario, id_loja, titulo FROM inventarios INNER JOIN lojas ON inventarios.loja_id = lojas.id_loja INNER JOIN filmes ON inventarios.filme_id = filmes.id_filme;
+
+
+-- Listar o primeiro nome, logradouro, cidade e pais do cliente (Requer 4 tabelas: clientes, enderecos, cidades, paises)
+SELECT primeiro_nome, endereco_id, cidade, pais FROM clientes INNER JOIN enderecos ON clientes.endereco_id = enderecos.id_endereco INNER JOIN cidades ON enderecos.cidade_id = cidades.id_cidade INNER JOIN paises ON cidades.pais_id = paises.id_pais;
+
+
+
+-- SELECT com LEFT JOIN 
