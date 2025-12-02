@@ -256,4 +256,49 @@ SELECT primeiro_nome, endereco_id, cidade, pais FROM clientes INNER JOIN enderec
 
 
 
--- SELECT com LEFT JOIN 
+-- 7 SELECT com LEFT JOIN 
+
+-- Listar todos os atores e filmes que atuaram (incluisive atores que não participaram de filme nenhum) 
+SELECT primeiro_nome, titulo FROM atores LEFT JOIN filmes_atores ON id_ator = ator_id LEFT JOIN filmes ON filme_id = id_filme;
+
+
+-- Listar todos os clientes e valores total de seus pagamentos (Usando SUM e GROUP BY, mostrando filmes que não foram alugados) 
+SELECT primeiro_nome, SUM(valor) AS total_pago FROM clientes LEFT JOIN pagamentos ON id_cliente = cliente_id GROUP BY id_cliente;
+
+
+-- Listar filmes e quantas vezes eles foram alugados (Usando COUNT e GROUP BY, mostrando tbm filmes nunca alugados) 
+SELECT titulo, 	COUNT(id_aluguel) AS TOTAL_ALUGADOS FROM filmes LEFT JOIN inventarios ON id_filme = filme_id LEFT JOIN alugueis ON id_inventario = inventario_id GROUP BY id_filme;
+
+
+-- Listar todas as categorias e o número de filmes de cada uma (Mostre categoria com 0 filmes)
+SELECT nome, COUNT(id_filme) AS total_filmes_categorias FROM categorias LEFT JOIN filmes_categorias ON id_categoria = categoria_id LEFT JOIN filmes ON id_filme = filme_id GROUP BY id_categoria;
+
+
+-- Encontrar alugueis que ainda não tem pagamento associados 
+SELECT * FROM alugueis LEFT JOIN pagamentos ON id_aluguel = aluguel_id WHERE id_pagamento IS NULL; 
+
+
+-- Listar paises e as cidades cadastradas (mostrar paises sem a cidade) 
+SELECT pais, cidade FROM paises LEFT JOIN cidades ON id_pais = pais_id;
+
+
+-- Listar todos os filmes e o nome do idioma_original_id (alguns podem ter o idioma nulo) 
+SELECT titulo, idioma_original_id FROM filmes LEFT JOIN idiomas ON filmes.idioma_original_id = id_idioma;
+
+
+-- Encontrando clientes que nunca fizeram um aluguel 
+SELECT primeiro_nome, ultimo_nome FROM clientes LEFT JOIN alugueis ON id_cliente = cliente_id WHERE id_aluguel IS NULL;
+
+
+-- Filmes sem cópias no inventário 
+SELECT titulo FROM filmes LEFT JOIN inventarios ON filmes.id_filme = inventarios.filme_id WHERE inventarios.id_inventario IS NULL; 
+
+
+-- Listar funcionarios e contagem de alugueis que cada um processou (mostre funcionários com 0 alugueis)
+SELECT primeiro_nome, COUNT(data_aluguel) AS total_alugueis FROM funcionarios LEFT JOIN alugueis ON funcionarios.id_funcionario = alugueis.funcionario_id GROUP BY id_funcionario;
+
+
+
+-- 8 SUBQUERYS (SUBCONSULTAS)
+
+-- Lista todos os filmes da categoria ACTION 
