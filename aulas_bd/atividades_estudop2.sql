@@ -299,6 +299,81 @@ SELECT primeiro_nome, COUNT(data_aluguel) AS total_alugueis FROM funcionarios LE
 
 
 
+
 -- 8 SUBQUERYS (SUBCONSULTAS)
 
 -- Lista todos os filmes da categoria ACTION 
+SELECT * FROM filmes WHERE id_filme IN (SELECT filme_id FROM filmes_categorias WHERE categoria_id = (SELECT categoria_id FROM categorias WHERE nome = 'Ação')); 
+
+
+-- Listando todos os atores que participaram do filme ALIEN CENTER 
+SELECT * FROM atores WHERE id_ator IN (SELECT ator_id FROM filmes_atores WHERE filme_id = (SELECT filme_id FROM filmes WHERE titulo = 'ALIEN CENTER' LIMIT 1));
+
+
+-- Clientes que moram no mesmo pais que a cliente 'MARY SMITH'
+SELECT *
+FROM clientes
+WHERE endereco_id IN (
+
+    SELECT endereco_id
+    FROM enderecos
+    WHERE cidade_id IN (
+
+        SELECT cidade_id
+        FROM cidades
+        WHERE pais_id IN (
+
+            SELECT pais_id
+            FROM cidades
+            WHERE cidade_id IN (
+                SELECT cidade_id
+                FROM enderecos
+                WHERE endereco_id IN (
+                    SELECT endereco_id
+                    FROM clientes
+                    WHERE primeiro_nome = 'MARY'
+                      AND ultimo_nome = 'SMITH'
+                )
+            )
+        )
+    )
+);
+
+
+
+-- Filmes com taxa de aluguel maior que a média de todas as taxas de aluguel 
+SELECT * FROM filmes WHERE taxa_aluguel > (SELECT AVG(taxa_aluguel) FROM filmes);
+
+
+-- Listar clientes que já fizeram mais de 30 pagamentos 
+SELECT *
+FROM clientes
+WHERE id_cliente IN (
+    SELECT cliente_id
+    FROM (
+        SELECT cliente_id, COUNT(*) AS total_pagamentos
+        FROM pagamentos
+        GROUP BY cliente_id
+    ) AS t
+    WHERE total_pagamentos > 30
+);
+
+
+-- Listar filmes do inventário que existem na loja 1 e não existem na loja 2 (Pode usar EXISTS ou IN) 
+SELECT * FROM filmes WHERE id_filme IN (SELECT filme_id FROM inventarios WHERE loja_id = 1) AND id_filme NOT IN (SELECT filme_id FROM inventarios WHERE loja_id = 2);
+
+
+-- Encontrando atores que não participaram de nenhum filme (pode usar not in ou not exists)
+SELECT * FROM atores WHERE id_ator NOT IN (SELECT ator_id FROM filmes_atores);
+
+
+-- Mostrar o id_cliente e o valor mais alto de um pagamento que cada cliente já fez 
+SELECT id_cliente, (SELECT MAX(valor) FROM pagamentos WHERE cliente_id = id_cliente) AS maior_pagamento FROM clientes;
+
+
+-- Encontre o cliente que gastou (SUM) o maior valor em pagamentos.
+SELECT cliente_id, SUM(valor) AS total_pago FROM pagamentos GROUP BY cliente_id ORDER BY valor DESC LIMIT 1;
+
+
+-- (Na cláusula SELECT) Liste cada filme e, em uma segunda coluna, mostre a taxa_aluguel média de todos os filmes.
+SELECT titulo, (SELECT AVG(taxa_aluguel) FROM filmes) AS media_geral FROM filmes;
