@@ -191,7 +191,7 @@ SELECT AVG(taxa_aluguel), MAX(taxa_aluguel), MIN(taxa_aluguel) FROM filmes;
 -- Encontrando a menor MIN e o maior MAX de duração dos filmes  
 SELECT MAX(duracao), MIN(duracao) FROM filmes;
 
--- Exibindo todos os nomes em uma única coluna (Usanbdo CONCAT())
+-- Exibindo todos os nomes em uma única coluna (Usando CONCAT())
 SELECT CONCAT(primeiro_nome, ' ', ultimo_nome) AS nome FROM clientes;
 
 -- Exibindo o nome de todos os títulos em letra maiúscula 
@@ -377,3 +377,24 @@ SELECT cliente_id, SUM(valor) AS total_pago FROM pagamentos GROUP BY cliente_id 
 
 -- (Na cláusula SELECT) Liste cada filme e, em uma segunda coluna, mostre a taxa_aluguel média de todos os filmes.
 SELECT titulo, (SELECT AVG(taxa_aluguel) FROM filmes) AS media_geral FROM filmes;
+
+
+
+-- 9 SELECT com WHERE, INNER JOIN e Funções (Consultas Complexas)
+
+-- Liste o nome completo (CONCAT) dos clientes (JOIN enderecos, cidades) que moram na cidade 'London' (WHERE).
+SELECT 
+    CONCAT(c.primeiro_nome, ' ', c.ultimo_nome) AS nome_completo
+FROM clientes c
+INNER JOIN enderecos e ON c.endereco_id = e.id_endereco
+INNER JOIN cidades ci ON e.cidade_id = ci.id_cidade
+WHERE ci.cidade = 'Londres';
+
+
+-- Liste os nomes dos atores (JOIN filmes_atores, filmes) que atuaram em filmes lançados (WHERE ano_lancamento) em 2006.
+SELECT DISTINCT
+    CONCAT(a.primeiro_nome, ' ', a.ultimo_nome) AS ator
+FROM atores a
+INNER JOIN filmes_atores fa ON a.id_ator = fa.ator_id
+INNER JOIN filmes f ON fa.filme_id = f.id_filme
+WHERE f.ano_lancamento = 2006;
